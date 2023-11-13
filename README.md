@@ -103,6 +103,7 @@ Legenda: *** Feriados nacionais com datas móveis
 | 11 | 8 | SC | Criação da Capitania |
 | 8 | 7 | SE | Autonomia Política de Sergipe |
 | 9 | 7 | SP |  Revolução Constitucionalista de 1932 |
+| 20 | 11 | SP | Consciência Negra |
 | 1 | 1 | TO | Instalação de Tocantins |
 | 8 | 9 | TO | Nossa Senhora da Natividade |
 | 5 | 10 | TO | Criação de Tocantins |
@@ -113,7 +114,7 @@ Todas as datas comemorativas de Aniversário de todos os municípios do Brasil.
 
 # Instalação
 
-TODO: Disponibilizar Nuget Package
+Nuget Package
 
 # Utilização
 
@@ -129,9 +130,9 @@ var feriado = Feriado.Factory(anoDoFeriado);
 var feriados = feriado.Feriados.ToList();
 
 //
-// Retorna uma lista ordenada com todos os feriados nacionais
+// Retorna uma lista ordenada com todos os feriados nacionais de 2023 incluindo feriados móveis
 //
-var feriadosNacionais = feriado.FeriadosNacionais("BR").ToList();
+var feriadosNacionais = feriado.FeriadosNacionais("2023").ToList();
 
 //
 // Retorna uma lista ordenada com todos os feriados do município de São Paulo
@@ -154,6 +155,11 @@ Se você deseja contribuir com código para este projeto, saiba que implicitamen
 1. Todo o código fonte fornecido, é obra original sua, ou;
 2. Atribuir corretamente a fonte de sua origem e licença.
 
+
+# Repositório Github
+
+https://github.com/medinasp/BrazilianHolydaysEneiasMedina
+
 # Licença
 
-Feriados - Copyright (c) 2023 - Eneias Medina
+Feriados - Copyright (c) 2023 - Bigai Consultoria Software (GNU General Public License v3.0) - Contribuição adaptação e distribuição do pacote nuget - Eneias Medina

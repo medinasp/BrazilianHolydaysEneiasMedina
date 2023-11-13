@@ -10,10 +10,6 @@ namespace BrazilianHolidaysEneiasMedina.Helpers
     /// pelo caracter ';'.</remarks>
     public static class FeriadosNacionaisHelper
     {
-        #region Constantes
-
-        #endregion
-
         /// <summary>
         /// Este método importa de uma planilha CSV, as informações sobre feriados nacionais.
         /// </summary>
@@ -23,100 +19,54 @@ namespace BrazilianHolidaysEneiasMedina.Helpers
         /// <returns>Lista contendo os feriados nacionais.</returns>
         public static List<FeriadoCelebrado> ImportarFeriadosNacionais(int anoFeriado, string abrangencia = "Nacional", string pais = "BR")
         {
+
+            //verifica se os recursos do pacote (arquivos fontes csv neste caso) foram incluidos
+            //string[] recursos = Assembly.GetExecutingAssembly().GetManifestResourceNames();
+            //foreach (string recurso in recursos)
+            //{
+            //    Console.WriteLine(recurso);
+            //}
+
             List<FeriadoCelebrado> feriadosNacionais = null;
-
-                string[,] planilha = null;
-                Assembly assembly = Assembly.GetExecutingAssembly(); // Pode ser necessário ajustar isso dependendo de onde está o recurso no seu projeto.
-                string[] recursos = assembly.GetManifestResourceNames();
-
-                foreach (string recurso in recursos)
-                {
-                    Console.WriteLine(recurso);
-                }
-
-                // Nome do recurso do arquivo CSV
-                string feriadosNacioaisResourceName = "BrazilianHolidaysEneiasMedina.assets.FeriadosNacionaisBr.csv";
-
-                try
-                {
-                    // Leitura do arquivo CSV incorporado
-                    using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(feriadosNacioaisResourceName))
-                        if (stream != null)
-                        {
-
-                            using (StreamReader reader = new StreamReader(stream))
-                            {
-                                string header = reader.ReadLine();
-                                Console.WriteLine($"Cabeçalho do CSV: {header}");
-
-                                while (!reader.EndOfStream)
-                                {
-                                    string linha = reader.ReadLine();
-                                    string[] campos = linha.Split(';');
-                                    Console.WriteLine($"DIA: {campos[0]}, MÊS: {campos[1]}, EVENTO: {campos[3]}");
-                                       //Console.WriteLine($"DIA: {campos[0]}, MÊS: {campos[1]}, UF: {campos[2]}, EVENTO: {campos[3]}");
-                            }
-                            }
-                        }
-                }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Erro ao ler o recurso incorporado: {ex.Message}");
-                }
-
-
-            // Nome do recurso do arquivo CSV
+            string[,] planilha = null;
             string feriadosNacionaisResourceName = "BrazilianHolidaysEneiasMedina.assets.FeriadosNacionaisBr.csv";
 
             try
             {
-                // Leitura do arquivo CSV incorporado
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(feriadosNacionaisResourceName))
                 using (StreamReader reader = new StreamReader(stream))
                 {
                     string header = reader.ReadLine();
                     Console.WriteLine($"Cabeçalho do CSV: {header}");
 
-                    // Inicializa o array bidimensional
                     int numeroDeLinhas = 1;
 
-                    // Lê cada linha e incrementa o contador
                     while (!reader.EndOfStream)
                     {
                         reader.ReadLine();
                         numeroDeLinhas++;
                     }
 
-                    // Reinicia o leitor para voltar ao início do arquivo
                     stream.Position = 0;
                     reader.DiscardBufferedData();
 
-                    // Inicializa o array bidimensional com base no número de linhas
-                    planilha = new string[numeroDeLinhas, 3]; // 3 colunas conforme o exemplo
+                    planilha = new string[numeroDeLinhas, 3];
 
-                    // Índice para acompanhar a posição na matriz
                     int indice = 0;
 
-                    // Lê novamente as linhas e popula a matriz
                     while (!reader.EndOfStream)
                     {
                         string linha = reader.ReadLine();
                         string[] campos = linha.Split(';');
-                        Console.WriteLine($"DIA: {campos[0]}, MÊS: {campos[1]}, EVENTO: {campos[2]}");
 
-                        // Adiciona os campos à matriz
                         planilha[indice, 0] = campos[0];
                         planilha[indice, 1] = campos[1];
                         planilha[indice, 2] = campos[2];
 
-                        // Incrementa o índice
                         indice++;
                     }
-
-                    // Agora você pode usar a variável planilha conforme necessário
                 }
             }
-
             catch (Exception ex)
             {
                 Console.WriteLine($"Erro ao ler o recurso incorporado: {ex.Message}");

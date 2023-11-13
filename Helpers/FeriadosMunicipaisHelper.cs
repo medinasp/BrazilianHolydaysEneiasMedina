@@ -1,13 +1,9 @@
-﻿namespace BrazilianHolidaysEneiasMedina.Helpers
+﻿using System.Reflection;
+
+namespace BrazilianHolidaysEneiasMedina.Helpers
 {
     public static class FeriadosMunicipaisHelper
     {
-        #region Constantes
-
-        private const string _feriadosMunicipaisCsv = @"assets\FeriadosMunicipaisBr.csv";
-
-        #endregion
-
         /// <summary>
         /// Este método importa de uma planilha CSV, as informações sobre feriados municipais.
         /// </summary>
@@ -17,15 +13,66 @@
         /// <returns>Lista contendo os feriados municipais.</returns>
         public static List<FeriadoCelebrado> ImportarFeriadosMunicipais(int anoFeriado, string abrangencia = "Municipal", string pais = "BR")
         {
+            /// <summary>
+            /// Este método importa de uma planilha CSV, as informações sobre feriados municipais.
+            /// </summary>
+            /// <param name="anoFeriado">Ano com 4 digitos numéricos, para o qual esta sendo importado os feriados.</param>
+            /// <param name="abrangencia">String que representa a abrangência dos feriados. Default "Municipal".</param>
+            /// <param name="pais">Sigla do país com 2 letras. Default "BR".</param>
+            /// <returns>Lista contendo os feriados municipais.</returns>
+            /// 
+
             List<FeriadoCelebrado> feriadosMunicipais = null;
+            string[,] planilha = null;
+            string feriadosMunicipaisResourceName = "BrazilianHolidaysEneiasMedina.assets.FeriadosMunicipaisBr.csv";
 
             try
             {
-                string startupPath = AppDomain.CurrentDomain.BaseDirectory;
-                string arquivo = Path.Combine(startupPath, _feriadosMunicipaisCsv);
-                string[,] planilha = CsvHelper.LoadCsv(arquivo);
+                using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(feriadosMunicipaisResourceName))
+                using (StreamReader reader = new StreamReader(stream))
+                {
+                    string header = reader.ReadLine();
+                    Console.WriteLine($"Cabeçalho do CSV: {header}");
 
-                if (planilha != null && planilha.GetLength(0) > 0)
+                    int numeroDeLinhas = 1;
+
+                    while (!reader.EndOfStream)
+                    {
+                        reader.ReadLine();
+                        numeroDeLinhas++;
+                    }
+
+                    stream.Position = 0;
+                    reader.DiscardBufferedData();
+
+                    planilha = new string[numeroDeLinhas, 8];
+
+                    int indice = 0;
+
+                    while (!reader.EndOfStream)
+                    {
+                        string linha = reader.ReadLine();
+                        string[] campos = linha.Split(';');
+
+                        planilha[indice, 0] = campos[0];
+                        planilha[indice, 1] = campos[1];
+                        planilha[indice, 2] = campos[2];
+                        planilha[indice, 3] = campos[3];
+                        planilha[indice, 4] = campos[4];
+                        planilha[indice, 5] = campos[5];
+                        planilha[indice, 6] = campos[6];
+                        planilha[indice, 7] = campos[7];
+
+                        indice++;
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Erro ao ler o recurso incorporado: {ex.Message}");
+            }
+
+            if (planilha != null && planilha.GetLength(0) > 0)
                 {
                     const int coluna1 = 0;
                     const int coluna2 = 1;
@@ -43,7 +90,7 @@
                         anoFeriado = DateTime.Now.Year;
                     }
 
-                    for (int linha = 0, totalDeLinhas = planilha.GetLength(0); linha < totalDeLinhas; linha++)
+                    for (int linha = 1, totalDeLinhas = planilha.GetLength(0); linha < totalDeLinhas; linha++)
                     {
                         if (!string.IsNullOrEmpty(planilha[linha, coluna1]) &&
                             !string.IsNullOrEmpty(planilha[linha, coluna2]) &&
@@ -75,11 +122,6 @@
                         }
                     }
                 }
-            }
-            catch (Exception ex)
-            {
-                throw ex;
-            }
 
             return feriadosMunicipais;
         }
