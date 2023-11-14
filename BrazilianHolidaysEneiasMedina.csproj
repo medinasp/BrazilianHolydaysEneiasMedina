@@ -7,9 +7,11 @@
     <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
-    <AssemblyVersion>1.0.0.21</AssemblyVersion>
-    <FileVersion>1.0.0.21</FileVersion>
-    <Version>1.0.0.21</Version>
+    <AssemblyVersion>1.0.0.25</AssemblyVersion>
+    <FileVersion>1.0.0.25</FileVersion>
+    <Version>1.0.0.25</Version>
+    <Title>Feriados nacionais, estaduais e municipais, inclusive móveis</Title>
+    <Authors>Bigai Consultoria Software - Contribuição, adaptação e distribuição do pacote nuget - Eneias Medina</Authors>
   </PropertyGroup>
 
   <ItemGroup>
