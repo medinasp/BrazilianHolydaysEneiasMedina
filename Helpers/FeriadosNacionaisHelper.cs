@@ -1,4 +1,5 @@
 ﻿using System.Reflection;
+using System.Text;
 
 namespace BrazilianHolidaysEneiasMedina.Helpers
 {
@@ -33,12 +34,13 @@ namespace BrazilianHolidaysEneiasMedina.Helpers
 
             try
             {
+                Encoding encoding = Encoding.UTF8;
+
                 using (Stream stream = Assembly.GetExecutingAssembly().GetManifestResourceStream(feriadosNacionaisResourceName))
-                using (StreamReader reader = new StreamReader(stream))
+                using (StreamReader reader = new StreamReader(stream, encoding))
                 {
                     string header = reader.ReadLine();
-                    Console.WriteLine($"Cabeçalho do CSV: {header}");
-
+    
                     int numeroDeLinhas = 1;
 
                     while (!reader.EndOfStream)
